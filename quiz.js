@@ -150,9 +150,9 @@ function validateAnswer() {
     current++;
 
     if (current < shuffledQuestions.length) {
-        setTimeout(showQuestion, 3000);
+        setTimeout(showQuestion, 9000);
     } else {
-        setTimeout(endQuiz, 3000);
+        setTimeout(endQuiz, 9000);
     }
 }
 
