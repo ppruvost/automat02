@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,6 +14,43 @@
 
   <!-- EmailJS -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <style>
+    /* Ajout du style pour aligner horizontalement les champs */
+    #userForm {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    #userForm label {
+      font-family: 'Lexend', sans-serif;
+      margin-right: 5px;
+    }
+
+    #userForm input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: 'Lexend', sans-serif;
+    }
+
+    #startQuiz {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Lexend', sans-serif;
+    }
+
+    #startQuiz:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 
 <body>
@@ -25,18 +63,22 @@
 
     <!-- Formulaire identité -->
     <div id="userForm">
-      <label for="nom">Nom :</label>
-      <input type="text" id="nom" placeholder="Entrez votre nom" required>
+      <div>
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" placeholder="Entrez votre nom" required>
+      </div>
 
-      <label for="prenom">Prénom :</label>
-      <input type="text" id="prenom" placeholder="Entrez votre prénom" required>
+      <div>
+        <label for="prenom">Prénom :</label>
+        <input type="text" id="prenom" placeholder="Entrez votre prénom" required>
+      </div>
 
       <button class="button start" id="startQuiz">🎮 Commencer le quiz</button>
     </div>
-    
-     <!-- SON PENDANT LE QUIZ -->
+
+    <!-- SON PENDANT LE QUIZ -->
     <audio id="bgMusic" src="musique.mp3" loop></audio>
-    
+
     <!-- ZONE DU QUIZ -->
     <div id="quiz" class="hidden"></div>
 
@@ -53,4 +95,3 @@
   <script src="envoi.js"></script>
 </body>
 </html>
-
