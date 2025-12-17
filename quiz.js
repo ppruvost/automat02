@@ -58,6 +58,7 @@ let user = { nom: "", prenom: "" };
 let current = 0;
 let score = 0;
 let shuffledQuestions = [];
+let reponsesDetails = []; // Variable pour stocker les détails des réponses
 
 function shuffleArray(arr) {
     const a = [...arr];
@@ -81,7 +82,7 @@ function shuffleQuestions() {
 let selectedAnswer = null;
 let selectedButton = null;
 
-// clic sur un bouton réponse
+// Clic sur un bouton réponse
 function selectAnswer(answer, btn) {
     selectedAnswer = answer;
 
@@ -93,7 +94,7 @@ function selectAnswer(answer, btn) {
     selectedButton = btn;
 }
 
-// affichage question
+// Affichage question
 function showQuestion() {
     const question = shuffledQuestions[current];
 
@@ -117,7 +118,7 @@ function showQuestion() {
     selectedButton = null;
 }
 
-// validation réponse
+// Validation réponse
 function validateAnswer() {
     if (!selectedAnswer) {
         document.getElementById("explication").innerHTML =
@@ -126,6 +127,13 @@ function validateAnswer() {
     }
 
     const q = shuffledQuestions[current];
+    const detail = {
+        question: q.question,
+        reponse_eleve: selectedAnswer,
+        bonne_reponse: q.bonne_reponse,
+        explication: q.explication
+    };
+    reponsesDetails.push(detail);
 
     if (selectedAnswer === q.bonne_reponse) {
         score++;
@@ -156,14 +164,49 @@ function validateAnswer() {
     }
 }
 
-// fin du quiz
+// Fin du quiz
 function endQuiz() {
+    const note20 = (score / shuffledQuestions.length) * 20;
+    const pointsPlayMaths = 0; // À adapter selon votre logique de bonus
+
+    const detailsHTML = reponsesDetails.map(detail =>
+        `Q: ${detail.question}\n` +
+        `Réponse élève : ${detail.reponse_eleve || "Aucune"}\n` +
+        `Bonne réponse : ${detail.bonne_reponse}\n` +
+        `Explication : ${detail.explication}\n`
+    ).join("\n\n");
+
+    const resultMessage =
+`Bonjour,
+
+Voici les résultats du quiz ou du Play Maths complétés par :
+
+Nom : ${user.nom}
+Prénom : ${user.prenom}
+
+Score brut : ${score} / ${shuffledQuestions.length}
+
+Note sur 20 : ${note20.toFixed(2)}
+
+Bonus Play Maths : ${pointsPlayMaths}
+
+Détails :
+${detailsHTML}
+`;
+
     document.getElementById("quiz").innerHTML = `
-        <h2>Automatisme terminé !</h2>
-        <p>Score final : ${score} / ${shuffledQuestions.length}</p>`;
+        <h2>Quiz terminé !</h2>
+        <p>Score final : ${score} / ${shuffledQuestions.length}</p>
+        <p>Note sur 20 : ${note20.toFixed(2)}</p>
+        <p>Résultats :</p>
+        <pre>${resultMessage}</pre>
+    `;
+
+    // Affichage dans la console pour vérification
+    console.log(resultMessage);
 }
 
-// lancement du quiz
+// Lancement du quiz
 document.getElementById("startQuiz").addEventListener("click", () => {
     startMusic();
 
@@ -181,6 +224,7 @@ document.getElementById("startQuiz").addEventListener("click", () => {
     shuffledQuestions = shuffleQuestions();
     current = 0;
     score = 0;
+    reponsesDetails = []; // Réinitialisation des détails
 
     document.getElementById("userForm").style.display = "none";
     document.getElementById("quiz").style.display = "block";
