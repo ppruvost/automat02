@@ -1,6 +1,7 @@
 // =============================
 // GESTION DE SESSION POUR RECOMMENCER LE QUIZ
 // =============================
+
 window.addEventListener("load", () => {
     if (sessionStorage.getItem("quizStarted")) {
         resetQuizSession();
@@ -19,6 +20,7 @@ function resetQuizSession() {
 // =============================
 // SYSTÈME ANTI-TRICHE
 // =============================
+
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") resetQuizSession();
 });
@@ -58,7 +60,7 @@ let user = { nom: "", prenom: "" };
 let current = 0;
 let score = 0;
 let shuffledQuestions = [];
-let reponsesDetails = []; // Variable pour stocker les détails des réponses
+let reponsesDetails = [];
 
 function shuffleArray(arr) {
     const a = [...arr];
@@ -82,7 +84,10 @@ function shuffleQuestions() {
 let selectedAnswer = null;
 let selectedButton = null;
 
+// =============================
 // Clic sur un bouton réponse
+// =============================
+
 function selectAnswer(answer, btn) {
     selectedAnswer = answer;
 
@@ -94,7 +99,10 @@ function selectAnswer(answer, btn) {
     selectedButton = btn;
 }
 
+// =============================
 // Affichage question
+// =============================
+
 function showQuestion() {
     const question = shuffledQuestions[current];
 
@@ -118,15 +126,22 @@ function showQuestion() {
     selectedButton = null;
 }
 
+// =============================
 // Validation réponse
+// =============================
+
 function validateAnswer() {
+    const q = shuffledQuestions[current];
+
     if (!selectedAnswer) {
+        q.userAnswer = "Aucune"; // Stocke "Aucune" si aucune réponse n'est sélectionnée
         document.getElementById("explication").innerHTML =
             "Veuillez sélectionner une réponse.";
         return;
     }
 
-    const q = shuffledQuestions[current];
+    q.userAnswer = selectedAnswer; // Stocke la réponse de l'élève
+
     const detail = {
         question: q.question,
         reponse_eleve: selectedAnswer,
@@ -164,7 +179,10 @@ function validateAnswer() {
     }
 }
 
+// =============================
 // Fin du quiz
+// =============================
+
 function endQuiz() {
     const note20 = (score / shuffledQuestions.length) * 20;
     const pointsPlayMaths = 0; // À adapter selon votre logique de bonus
@@ -202,11 +220,13 @@ ${detailsHTML}
         <pre>${resultMessage}</pre>
     `;
 
-    // Affichage dans la console pour vérification
     console.log(resultMessage);
 }
 
+// =============================
 // Lancement du quiz
+// =============================
+
 document.getElementById("startQuiz").addEventListener("click", () => {
     startMusic();
 
@@ -224,7 +244,7 @@ document.getElementById("startQuiz").addEventListener("click", () => {
     shuffledQuestions = shuffleQuestions();
     current = 0;
     score = 0;
-    reponsesDetails = []; // Réinitialisation des détails
+    reponsesDetails = [];
 
     document.getElementById("userForm").style.display = "none";
     document.getElementById("quiz").style.display = "block";
